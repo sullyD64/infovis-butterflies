@@ -40,6 +40,28 @@ function drawGrid() {
     )
 }
 
+function drawGrass(og) {
+  var overgrowth = og ? og : 50;
+  var vegetation = svg.append("g").classed("vegetation", true)
+
+  var nodes = d3.range(overgrowth).map(function (i) {
+    return {
+      x: Math.random() * width*M,
+      y: Math.random() * height*N,
+    };
+  });
+
+  vegetation.selectAll(".grass")
+    .data(nodes)
+    .enter()
+    .append("image")
+    .attr("xlink:href", "resources/grass.svg")
+    .attr("width", 100)
+    .attr("height", 100)
+    .style("opacity", 0.3)
+    .attr("transform", function (d) { return "scale(0.3), translate(" + d.x + "," + d.y + ")" });
+}
+
 function drawField(flws, coordinates) {
   // Initialize flowers
   var flowers = svg.selectAll(".flower")
@@ -59,7 +81,7 @@ function drawField(flws, coordinates) {
     .attr("fill", function (d) { return d.color })
     .transition().duration(0)
     .attr("transform", "translate(" + M / 2 + "," + N / 2 + ")")
-  
+
   // Add detail
   flowers.append("path")
     .attr("d", flower2)
@@ -79,6 +101,7 @@ function drawField(flws, coordinates) {
   flowers.append("text")
     .attr("dy", "20")
     .attr("dx", "20")
+    .attr("fill", "white")
     .text(function (d) { return d.id - 10 });
 
   // Arrange flowers on grid
@@ -86,5 +109,4 @@ function drawField(flws, coordinates) {
     .transition().duration(1000)
     .attr("transform", function (d) { return "translate(" + scaleX(d.x + 0.5) + "," + scaleY(d.y + 0.5) + ")" })
 
-  }
-
+}

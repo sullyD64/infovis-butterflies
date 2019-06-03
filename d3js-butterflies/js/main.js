@@ -34,7 +34,8 @@ function reload() {
 function init() {
     setTimeout(function () {
         d3.json("resources/settings.json").then(function (data) {
-        //drawGrid();
+        drawGrass();
+        // drawGrid();
         dataset = loadData(data);
         drawField(dataset.flws, dataset.coords);
         });

@@ -17,9 +17,9 @@ h1 {
   margin-right: auto;
   width: 70vw;
   /* padding: 1em; */
-  /* outline-style: dashed;
-  outline-width: 2px;
-  outline-color: dimgray; */
+  outline-style: dashed;
+  outline-width: 4px;
+  outline-color: dimgray;
   /* border: 1px solid; */
 }
 
