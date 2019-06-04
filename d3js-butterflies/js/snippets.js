@@ -105,6 +105,8 @@
 
 
 
+
+/* SEE THIS */
 /// CAPTURE BUTTERFLIES
 
 // var scale = 2;
@@ -127,3 +129,7 @@
 //     d3.select(this).attr('transform', 'translate(' + d3.event.x + ',' + d3.event.y + ')');
 
 //   }))
+
+
+// .transition().duration(0)
+// .attr("transform", "translate(" + scaleX(M/2) + "," + scaleY(N/2) + ")")

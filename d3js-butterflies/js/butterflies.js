@@ -40,14 +40,15 @@ function drawGrid() {
     )
 }
 
+
 function drawGrass(og) {
   var overgrowth = og ? og : 50;
   var vegetation = svg.append("g").classed("vegetation", true)
 
   var nodes = d3.range(overgrowth).map(function (i) {
     return {
-      x: Math.random() * width*M,
-      y: Math.random() * height*N,
+      x: Math.random() * width * M,
+      y: Math.random() * height * N,
     };
   });
 
@@ -62,51 +63,48 @@ function drawGrass(og) {
     .attr("transform", function (d) { return "scale(0.3), translate(" + d.x + "," + d.y + ")" });
 }
 
-function drawField(flws, coordinates) {
-  // Initialize flowers
-  var flowers = svg.selectAll(".flower")
-    .data(flws)
+
+function drawField(flowersData, coordinates, bfls, couples) {
+
+  // Initialize flower groups
+  var flws = svg.selectAll(".flower")
+    .data(flowersData)
     .enter().append("g")
     .classed("flower", true)
     .attr("id", function (d) { return "fl" + (d.id - 10) });
 
   // Draw center of flower group (debug)
-  // flowers.append('circle')
-  //   .attr('r', 1)
-  //   .style('fill', '#000');
+  // flws.append('circle')
+  //   .attr('r', 30)
+  //   .style('fill', '#000')
 
-  // Render colored image
-  flowers.append("path")
+  // Render flower image
+  flws.append("path")
     .attr("d", flower1)
-    .attr("fill", function (d) { return d.color })
-    .transition().duration(0)
-    .attr("transform", "translate(" + M / 2 + "," + N / 2 + ")")
+    .attr("fill", function (d) { return d.color });
 
-  // Add detail
-  flowers.append("path")
+  // Render flower image (detail)
+  flws.append("path")
     .attr("d", flower2)
-    .attr("fill", "white")
-    .transition().duration(0)
-    .attr("transform", "translate(" + M / 2 + "," + N / 2 + ")")
+    .attr("fill", "white");
 
-  fw = flowers.select("path").node().getBBox().width
-  fh = flowers.select("path").node().getBBox().height
-
-  // Center flowers on grid
-  flowers.selectAll("path")
-    .transition().duration(0)
-    .attr("transform", "scale(0.4), translate(" + -fw / 2 + "," + -fh / 2 + ")")
-
-  // Draw label showing flower id
-  flowers.append("text")
+  // Render label showing flower id
+  flws.append("text")
     .attr("dy", "20")
     .attr("dx", "20")
     .attr("fill", "white")
     .text(function (d) { return d.id - 10 });
 
-  // Arrange flowers on grid
-  flowers.data(coordinates)
-    .transition().duration(1000)
-    .attr("transform", function (d) { return "translate(" + scaleX(d.x + 0.5) + "," + scaleY(d.y + 0.5) + ")" })
+  fw = flws.select("path").node().getBBox().width;
+  fh = flws.select("path").node().getBBox().height;
+
+  // Arrange flower groups on grid
+  flws.transition().duration(1000)
+    .attr("transform", function (d) { return "translate(" + scaleX(d.x + 0.5) + "," + scaleY(d.y + 0.5) + ")" });
+
+  // Center flower images on grid
+  flws.selectAll("path")
+    .transition().duration(0)
+    .attr("transform", "scale(0.4), translate(" + (-fw / 2) + "," + (-fh / 2) + ")")
 
 }

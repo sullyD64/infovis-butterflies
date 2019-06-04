@@ -56,44 +56,46 @@
   "butterflies": [
     {
       "id": 21,
-      "color": "grey"
+      "color": "deeppink"
     },
     {
       "id": 22,
-      "color": "red"
+      "color": "gold"
     },
     {
       "id": 23,
-      "color": "blue"
+      "color": "navy"
     },
     {
       "id": 24,
-      "color": "green"
+      "color": "olive"
     },
     {
       "id": 25,
-      "color": "purple"
+      "color": "seagreen"
     },
     {
       "id": 26,
-      "color": "yellow"
+      "color": "sienna"
     },
     {
       "id": 27,
-      "color": "cyan"
+      "color": "teal"
     },
     {
       "id": 28,
-      "color": "pink"
+      "color": "aqua"
     },
     {
       "id": 29,
-      "color": "orange"
+      "color": "crimson"
     },
     {
       "id": 30,
-      "color": "magenta"
+      "color": "dodgerblue"
     }
   ],
-  "butterflies-locations": []
+  "bf_fl_arrangements": [
+    [[1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8], [9, 9], [10, 10]]
+  ]
 }
