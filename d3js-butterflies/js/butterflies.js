@@ -149,6 +149,12 @@ function drawField(flowersData, butterfliesData, debug = false) {
       .attr("fill", "black")
       .text(function (d) { return "B" + (d.id + 1) });
   }
+
+    svg.selectAll(".butterfly")
+      .on("mouseover", function() {
+        d3.select(this).remove();
+        updateFreeButterflies();
+    });
 }
 
 function updateField(butterfliesData) {

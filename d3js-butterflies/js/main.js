@@ -6,8 +6,10 @@ butterflies = [];
 curr_flArr = [null, null];
 curr_bfflArr = [null, null];
 
+free_butterflies = 0;
+
 updatefrequency = 1500;
-debug = true;
+debug = false;
 
 /* Data loading */
 
@@ -59,15 +61,19 @@ function loadData() {
     butterflies = updateButterflyCoords(dataset.butterflies, flowers);
 }
 
+/* Main */
+
 function reload() {
     d3.selectAll(".flower").remove();
     d3.selectAll(".butterfly").remove();
 
     loadData()
     drawField(flowers, butterflies);
+    
+    free_butterflies = 10;
+    i = 0;
+    update_loop = setInterval(loop, updatefrequency);
 }
-
-/* Main */
 
 function init() {
     setTimeout(function () {
@@ -77,20 +83,28 @@ function init() {
             // drawGrid();
             loadData();
             drawField(flowers, butterflies, debug);
+            free_butterflies = 10;
         });
     }, 500);
 }
 
 i = 0
 function loop() {
-    i = i + 1
-    console.log("updating butterflies..." + (i))
-
-    nextButterflyFlowerArrangement()
-    butterflies = updateButterflyCoords(butterflies, flowers)
-    updateField(butterflies)
+    if (free_butterflies > 0) {
+        i = i + 1;
+        console.log("updating butterflies..." + (i));
+        nextButterflyFlowerArrangement();
+        butterflies = updateButterflyCoords(butterflies, flowers);
+        updateField(butterflies);
+    } else {
+        console.log("all butterflies have been captured!");
+        clearInterval(update_loop);
+    }
 }
 
+function updateFreeButterflies() {
+    free_butterflies--;
+}
 
 init();
-setInterval(loop, updatefrequency);
+update_loop = setInterval(loop, updatefrequency);
