@@ -88,10 +88,10 @@ function drawField(flowersData, butterfliesData) {
 
   // Render label showing flower id
   flws.append("text")
-    .attr("dy", "20")
-    .attr("dx", "20")
+    .attr("dx", 20)
+    .attr("dy", 20)
     .attr("fill", "white")
-    .text(function (d) { return d.id + 1 });
+    .text(function (d) { return "F" + (d.id + 1) });
 
   fw = flws.select("path").node().getBBox().width;
   fh = flws.select("path").node().getBBox().height;
@@ -127,10 +127,10 @@ function drawField(flowersData, butterfliesData) {
 
   // Render label showing butterfly id
   bfls.append("text")
-  .attr("dy", "20")
-  .attr("dx", "40")
-  .attr("fill", "black")
-  .text(function (d) { return d.id + 1 });
+    .attr("dx", 20)
+    .attr("dy", 40)
+    .attr("fill", "black")
+    .text(function (d) { return "B" + (d.id + 1) });
 
   // Arrange butterfly groups on flowers
   bfls.transition().duration(0)
@@ -144,10 +144,4 @@ function drawField(flowersData, butterfliesData) {
     .transition().duration(2000)
     .attr("fill-opacity", 1)
     .attr("transform", "scale(1.2) translate(" + (-bw / 1.8) + "," + (-bh / 2) + ")");
-
-
-  /*
-    DOVE SIAMO RIMASTI  
-    vorrei fare in modo che il cambio posto avvenga un po' per volta e non tutto simultaneo
-  */
 }
