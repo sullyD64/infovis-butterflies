@@ -74,7 +74,7 @@ function init() {
             drawGrass();
             // drawGrid();
             loadData();
-            drawField(flowers, butterflies);
+            drawField(flowers, butterflies, debug=false);
         });
     }, 500);
 }
@@ -84,9 +84,12 @@ init();
 
 i = 0
 function loop() {
-    reload();
+    // reload();
     i = i + 1
     console.log("running..." + (i))
-    // call update function here
+
+
+
+
 }
 setInterval(loop, 4000);

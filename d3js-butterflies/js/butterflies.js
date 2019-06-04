@@ -7,8 +7,9 @@ N = 4;
 scaleX = d3.scaleLinear().domain([0, M]).range([0, width]);
 scaleY = d3.scaleLinear().domain([0, N]).range([0, height]);
 
-/* Initialize canvas */
+debugActive = false;
 
+/* Initialize canvas */
 svg = d3.select(".wrapper")
   .append("svg")
   .classed("canvas", true)
@@ -64,19 +65,13 @@ function drawGrass(og) {
 }
 
 
-function drawField(flowersData, butterfliesData) {
-
+function drawField(flowersData, butterfliesData, debug = false) {
   // Initialize flower groups
   var flws = svg.selectAll(".flower")
     .data(flowersData)
     .enter().append("g")
     .classed("flower", true)
     .attr("id", function (d) { return "fl" + (d.id + 1) });
-
-  // Draw center of flower group (debug)
-  // flws.append('circle')
-  //   .attr('r', 5)
-  //   .style('fill', '#000')
 
   // Render flower image
   flws.append("path")
@@ -85,13 +80,6 @@ function drawField(flowersData, butterfliesData) {
   flws.append("path")
     .attr("d", flower2)
     .attr("fill", "white");
-
-  // Render label showing flower id
-  flws.append("text")
-    .attr("dx", 20)
-    .attr("dy", 20)
-    .attr("fill", "white")
-    .text(function (d) { return "F" + (d.id + 1) });
 
   fw = flws.select("path").node().getBBox().width;
   fh = flws.select("path").node().getBBox().height;
@@ -114,23 +102,11 @@ function drawField(flowersData, butterfliesData) {
     .classed("butterfly", true)
     .attr("id", function (d) { return "bf" + (d.id + 1) });
 
-  // Draw center of butterfly group (debug)
-  // bfls.append('circle')
-  //   .attr('r', 5)
-  //   .style('fill', '#ff0000')
-
   // Render butterfly image
   bfls.append("path")
     .attr("d", bfly)
     .attr("fill", function (d) { return d.color })
     .attr("fill-opacity", 0);
-
-  // Render label showing butterfly id
-  bfls.append("text")
-    .attr("dx", 20)
-    .attr("dy", 40)
-    .attr("fill", "black")
-    .text(function (d) { return "B" + (d.id + 1) });
 
   // Arrange butterfly groups on flowers
   bfls.transition().duration(0)
@@ -144,4 +120,33 @@ function drawField(flowersData, butterfliesData) {
     .transition().duration(2000)
     .attr("fill-opacity", 1)
     .attr("transform", "scale(1.2) translate(" + (-bw / 1.8) + "," + (-bh / 2) + ")");
+
+  
+  if (debug || debugActive) {
+    debugActive = true;
+    // Draw center of flower group (debug)
+    flws.append('circle')
+      .attr('r', 1)
+      .style('fill', 'red')
+
+    // Render label showing flower id
+    flws.append("text")
+      .attr("dx", 20)
+      .attr("dy", 20)
+      .attr("fill", "white")
+      .text(function (d) { return "F" + (d.id + 1) });
+
+    // Draw center of butterfly group (debug)
+    bfls.append('circle')
+      .attr('r', 1)
+      .style('fill', 'black')
+
+    // Render label showing butterfly id
+    bfls.append("text")
+      .attr("dx", 20)
+      .attr("dy", 40)
+      .attr("fill", "black")
+      .text(function (d) { return "B" + (d.id + 1) });
+  }
 }
+
