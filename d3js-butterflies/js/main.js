@@ -1,23 +1,32 @@
 /* Global variables */
-dataset = []
-flowers = []
-butterflies = []
+dataset = [];
+flowers = [];
+butterflies = [];
 
 /* Data loading */
-function loadFlowerCoords(flws, flArrangement) {
-    var flws_new = []
 
-    flws.forEach(element => {
-        coords = flArrangement[element.id - 11];
-        flws_new.push({
-            "id": element.id,
-            "color": element.color,
-            "x": coords[1] - 1,
-            "y": coords[0] - 1
-        });
+function updateFlowerCoords(flowers, flArr) {
+    new_flowers = []
+    flowers.forEach(f => {
+        coords = flArr[f.id];
+        f = { ...f, ...{ "x": coords[1] - 1, "y": coords[0] - 1 } };
+        new_flowers.push(f);
     })
-    return flws_new;
+    return new_flowers
 }
+
+function updateButterflyCoords(butterflies, flowers, bfflArr) {
+    new_butterflies = []
+
+    butterflies.forEach(b => {
+        target_fl_id = bfflArr.find(function (el) { return el[0] == b.id })[1];
+        target_fl = flowers.find(function (el) { return el.id == target_fl_id});
+        b = { ...b, ...{ "x": target_fl.x, "y": target_fl.y } };
+        new_butterflies.push(b);
+    })
+    return new_butterflies;
+}
+
 
 function pickRandomArrangement(arrangements) {
     return arrangements[Math.floor(Math.random() * arrangements.length)];
@@ -25,18 +34,10 @@ function pickRandomArrangement(arrangements) {
 
 function loadData() {
     var flArrangement = pickRandomArrangement(dataset.flowers_arrangements);
-    flowers = loadFlowerCoords(dataset.flowers, flArrangement);
+    flowers = updateFlowerCoords(dataset.flowers, flArrangement);
 
-
-    // bfls = dataset.butterflies;
-    // var couples = dataset.butterflies_flowers;
-
-}
-
-function getButterflyCoords(bfls, flowers_arrangements, couples) {
-    var coords = []
-
-
+    var bfflArrangement = pickRandomArrangement(dataset.bf_fl_arrangements);
+    butterflies = updateButterflyCoords(dataset.butterflies, flowers, bfflArrangement);
 }
 
 
@@ -45,7 +46,7 @@ function reload() {
     d3.selectAll(".butterfly").remove();
 
     loadData()
-    drawField(flowers);
+    drawField(flowers, butterflies);
 }
 
 
@@ -56,7 +57,7 @@ function init() {
             drawGrass();
             drawGrid();
             loadData();
-            drawField(flowers);
+            drawField(flowers, butterflies);
         });
     }, 500);
 }

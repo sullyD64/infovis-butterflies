@@ -64,26 +64,24 @@ function drawGrass(og) {
 }
 
 
-function drawField(flowersData, coordinates, bfls, couples) {
+function drawField(flowersData, butterfliesData) {
 
   // Initialize flower groups
   var flws = svg.selectAll(".flower")
     .data(flowersData)
     .enter().append("g")
     .classed("flower", true)
-    .attr("id", function (d) { return "fl" + (d.id - 10) });
+    .attr("id", function (d) { return "fl" + (d.id + 1) });
 
   // Draw center of flower group (debug)
   // flws.append('circle')
-  //   .attr('r', 30)
+  //   .attr('r', 5)
   //   .style('fill', '#000')
 
   // Render flower image
   flws.append("path")
     .attr("d", flower1)
     .attr("fill", function (d) { return d.color });
-
-  // Render flower image (detail)
   flws.append("path")
     .attr("d", flower2)
     .attr("fill", "white");
@@ -93,7 +91,7 @@ function drawField(flowersData, coordinates, bfls, couples) {
     .attr("dy", "20")
     .attr("dx", "20")
     .attr("fill", "white")
-    .text(function (d) { return d.id - 10 });
+    .text(function (d) { return d.id + 1 });
 
   fw = flws.select("path").node().getBBox().width;
   fh = flws.select("path").node().getBBox().height;
@@ -105,6 +103,51 @@ function drawField(flowersData, coordinates, bfls, couples) {
   // Center flower images on grid
   flws.selectAll("path")
     .transition().duration(0)
-    .attr("transform", "scale(0.4), translate(" + (-fw / 2) + "," + (-fh / 2) + ")")
+    .attr("transform", "scale(0.4), translate(" + (-fw / 2) + "," + (-fh / 2) + ")");
 
+  /* -------------------------------------------------------------- */
+
+  // Initialize butterfly groups
+  var bfls = svg.selectAll(".butterfly")
+    .data(butterfliesData)
+    .enter().append("g")
+    .classed("butterfly", true)
+    .attr("id", function (d) { return "bf" + (d.id + 1) });
+
+  // Draw center of butterfly group (debug)
+  // bfls.append('circle')
+  //   .attr('r', 5)
+  //   .style('fill', '#ff0000')
+
+  // Render butterfly image
+  bfls.append("path")
+    .attr("d", bfly)
+    .attr("fill", function (d) { return d.color })
+    .attr("fill-opacity", 0);
+
+  // Render label showing butterfly id
+  bfls.append("text")
+  .attr("dy", "20")
+  .attr("dx", "40")
+  .attr("fill", "black")
+  .text(function (d) { return d.id + 1 });
+
+  // Arrange butterfly groups on flowers
+  bfls.transition().duration(0)
+    .attr("transform", function (d) { return "translate(" + scaleX(d.x + 0.5) + "," + scaleY(d.y + 0.5) + ")" });
+
+  bw = bfls.select("path").node().getBBox().width;
+  bh = bfls.select("path").node().getBBox().height;
+
+  // Center butterfly images on grid
+  bfls.selectAll("path")
+    .transition().duration(2000)
+    .attr("fill-opacity", 1)
+    .attr("transform", "scale(1.2) translate(" + (-bw / 1.8) + "," + (-bh / 2) + ")");
+
+
+  /*
+    DOVE SIAMO RIMASTI  
+    vorrei fare in modo che il cambio posto avvenga un po' per volta e non tutto simultaneo
+  */
 }
