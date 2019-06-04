@@ -3,26 +3,29 @@ dataset = [];
 flowers = [];
 butterflies = [];
 
-curr_flArr = [null,null];
-curr_bfflArr = [null,null]
+curr_flArr = [null, null];
+curr_bfflArr = [null, null];
+
+updatefrequency = 1500;
+debug = true;
 
 /* Data loading */
 
-function updateFlowerCoords(flowers, flArr) {
+function updateFlowerCoords(flowers) {
     new_flowers = []
     flowers.forEach(f => {
-        coords = flArr[1][f.id];
+        coords = curr_flArr[1][f.id];
         f = { ...f, ...{ "x": coords[1] - 1, "y": coords[0] - 1 } };
         new_flowers.push(f);
     })
     return new_flowers
 }
 
-function updateButterflyCoords(butterflies, flowers, bfflArr) {
+function updateButterflyCoords(butterflies, flowers) {
     new_butterflies = []
     butterflies.forEach(b => {
-        target_fl_id = bfflArr[1].find(function (el) { return el[0] == b.id })[1];
-        target_fl = flowers.find(function (el) { return el.id == target_fl_id});
+        target_fl_id = curr_bfflArr[1].find(function (el) { return el[0] == b.id })[1];
+        target_fl = flowers.find(function (el) { return el.id == target_fl_id });
         b = { ...b, ...{ "x": target_fl.x, "y": target_fl.y } };
         new_butterflies.push(b);
     })
@@ -49,14 +52,12 @@ function nextButterflyFlowerArrangement() {
     curr_bfflArr = new_bfflArr
 }
 
-
 function loadData() {
     nextFlowerArrangement()
-    flowers = updateFlowerCoords(dataset.flowers, curr_flArr);
+    flowers = updateFlowerCoords(dataset.flowers);
     nextButterflyFlowerArrangement()
-    butterflies = updateButterflyCoords(dataset.butterflies, flowers, curr_bfflArr);
+    butterflies = updateButterflyCoords(dataset.butterflies, flowers);
 }
-
 
 function reload() {
     d3.selectAll(".flower").remove();
@@ -66,6 +67,7 @@ function reload() {
     drawField(flowers, butterflies);
 }
 
+/* Main */
 
 function init() {
     setTimeout(function () {
@@ -74,22 +76,21 @@ function init() {
             drawGrass();
             // drawGrid();
             loadData();
-            drawField(flowers, butterflies, debug=false);
+            drawField(flowers, butterflies, debug);
         });
     }, 500);
 }
 
-init();
-
-
 i = 0
 function loop() {
-    // reload();
     i = i + 1
-    console.log("running..." + (i))
+    console.log("updating butterflies..." + (i))
 
-
-
-
+    nextButterflyFlowerArrangement()
+    butterflies = updateButterflyCoords(butterflies, flowers)
+    updateField(butterflies)
 }
-setInterval(loop, 4000);
+
+
+init();
+setInterval(loop, updatefrequency);

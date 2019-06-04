@@ -76,7 +76,8 @@ function drawField(flowersData, butterfliesData, debug = false) {
   // Render flower image
   flws.append("path")
     .attr("d", flower1)
-    .attr("fill", function (d) { return d.color });
+    .attr("fill", function (d) { return d.color })
+    .attr("stroke", "black");
   flws.append("path")
     .attr("d", flower2)
     .attr("fill", "white");
@@ -125,9 +126,9 @@ function drawField(flowersData, butterfliesData, debug = false) {
   if (debug || debugActive) {
     debugActive = true;
     // Draw center of flower group (debug)
-    flws.append('circle')
-      .attr('r', 1)
-      .style('fill', 'red')
+    flws.append("circle")
+      .attr("r", 1)
+      .style("fill", "red")
 
     // Render label showing flower id
     flws.append("text")
@@ -137,9 +138,9 @@ function drawField(flowersData, butterfliesData, debug = false) {
       .text(function (d) { return "F" + (d.id + 1) });
 
     // Draw center of butterfly group (debug)
-    bfls.append('circle')
-      .attr('r', 1)
-      .style('fill', 'black')
+    bfls.append("circle")
+      .attr("r", 1)
+      .style("fill", "black")
 
     // Render label showing butterfly id
     bfls.append("text")
@@ -150,3 +151,9 @@ function drawField(flowersData, butterfliesData, debug = false) {
   }
 }
 
+function updateField(butterfliesData) {
+  var bfls = svg.selectAll(".butterfly")
+  .data(butterfliesData)
+  .transition().duration(1000)
+  .attr("transform", function (d) { return "translate(" + scaleX(d.x + 0.5) + "," + scaleY(d.y + 0.5) + ")" })
+}
