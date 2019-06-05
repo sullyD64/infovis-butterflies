@@ -62,17 +62,16 @@ function loadData() {
 }
 
 /* Main */
-
 function reload() {
-    d3.selectAll(".flower").remove();
-    d3.selectAll(".butterfly").remove();
-
-    loadData()
+    console.log("resetting...")
+    load_occurring = true;
+    clearField();
+    loadData();
     drawField(flowers, butterflies);
-    
-    free_butterflies = 10;
-    i = 0;
-    update_loop = setInterval(loop, updatefrequency);
+    if (update_loop) {
+        clearInterval(update_loop)
+    }
+    launch();
 }
 
 function init() {
@@ -80,7 +79,9 @@ function init() {
         d3.json("resources/settings.json").then(function (data) {
             dataset = data
             drawGrass();
-            // drawGrid();
+            if (debug) {
+                drawGrid();
+            }
             loadData();
             drawField(flowers, butterflies, debug);
             free_butterflies = 10;
@@ -101,10 +102,28 @@ function loop() {
         clearInterval(update_loop);
     }
 }
-
+j = 0
 function updateFreeButterflies() {
     free_butterflies--;
 }
 
+update_loop = null;
+function launch() {
+    if (update_loop) {
+        clearInterval(update_loop)
+    }
+    free_butterflies = 10;
+    i = 0;
+    setTimeout(function () {
+        if (load_occurring) {
+            j = j + 1
+            console.log("j: " + j)
+            update_loop = setInterval(loop, updatefrequency);
+            load_occurring = false;
+        }
+    }, 2000);
+}
+
 init();
-update_loop = setInterval(loop, updatefrequency);
+load_occurring = true;
+launch();

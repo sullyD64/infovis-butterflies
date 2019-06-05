@@ -122,7 +122,7 @@ function drawField(flowersData, butterfliesData, debug = false) {
     .attr("fill-opacity", 1)
     .attr("transform", "scale(1.2) translate(" + (-bw / 1.8) + "," + (-bh / 2) + ")");
 
-  
+
   if (debug || debugActive) {
     debugActive = true;
     // Draw center of flower group (debug)
@@ -150,16 +150,21 @@ function drawField(flowersData, butterfliesData, debug = false) {
       .text(function (d) { return "B" + (d.id + 1) });
   }
 
-    svg.selectAll(".butterfly")
-      .on("mouseover", function() {
-        d3.select(this).remove();
-        updateFreeButterflies();
+  svg.selectAll(".butterfly")
+    .on("mouseover", function () {
+      d3.select(this).remove();
+      updateFreeButterflies();
     });
 }
 
 function updateField(butterfliesData) {
   var bfls = svg.selectAll(".butterfly")
-  .data(butterfliesData)
-  .transition().duration(1000)
-  .attr("transform", function (d) { return "translate(" + scaleX(d.x + 0.5) + "," + scaleY(d.y + 0.5) + ")" })
+    .data(butterfliesData)
+    .transition().duration(1000)
+    .attr("transform", function (d) { return "translate(" + scaleX(d.x + 0.5) + "," + scaleY(d.y + 0.5) + ")" })
+}
+
+function clearField() {
+  d3.selectAll(".flower").remove();
+  d3.selectAll(".butterfly").remove();
 }
