@@ -85,6 +85,7 @@ function init() {
             loadData();
             drawField(flowers, butterflies, debug);
             free_butterflies = 10;
+            addEventListener();
         });
     }, 500);
 }
@@ -93,7 +94,7 @@ i = 0
 function loop() {
     if (free_butterflies > 0) {
         i = i + 1;
-        console.log("updating butterflies..." + (i));
+        console.log("moving butterflies..." + (i));
         nextButterflyFlowerArrangement();
         butterflies = updateButterflyCoords(butterflies, flowers);
         updateField(butterflies);
@@ -105,6 +106,7 @@ function loop() {
 j = 0
 function updateFreeButterflies() {
     free_butterflies--;
+    console.log("butterfly caught! remaining: " + free_butterflies);
 }
 
 update_loop = null;

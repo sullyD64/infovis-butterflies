@@ -1,13 +1,15 @@
 width = 600;
 height = 350;
 
-M = 6;
+M = 6
 N = 4;
 
 scaleX = d3.scaleLinear().domain([0, M]).range([0, width]);
 scaleY = d3.scaleLinear().domain([0, N]).range([0, height]);
 
 debugActive = false;
+captureEnabled = false;
+mouseCoords = [0, 0];
 
 /* Initialize canvas */
 svg = d3.select(".wrapper")
@@ -122,6 +124,7 @@ function drawField(flowersData, butterfliesData, debug = false) {
     .attr("fill-opacity", 1)
     .attr("transform", "scale(1.2) translate(" + (-bw / 1.8) + "," + (-bh / 2) + ")");
 
+  /* -------------------------------------------------------------- */
 
   if (debug || debugActive) {
     debugActive = true;
@@ -150,11 +153,40 @@ function drawField(flowersData, butterfliesData, debug = false) {
       .text(function (d) { return "B" + (d.id + 1) });
   }
 
+  /* -------------------------------------------------------------- */
+
+  // Make butterflies capturable
   svg.selectAll(".butterfly")
     .on("mouseover", function () {
-      d3.select(this).remove();
-      updateFreeButterflies();
+      if (captureEnabled) {
+        d3.select(this).remove();
+        updateFreeButterflies();
+      }
     });
+}
+
+function drawNet() {
+  svg.attr("class", "canvas withNet")
+}
+
+function hideNet() {
+  svg.attr("class", "canvas")
+}
+
+function addEventListener() {
+  d3.select("body").on("keydown", function () {
+    if (d3.event.keyCode === 82) {
+      if (!captureEnabled) {
+        drawNet();
+        captureEnabled = true;
+        console.log("capture on")
+      } else {
+        hideNet();
+        console.log("capture off")
+        captureEnabled = false;
+      }
+    }
+  });
 }
 
 function updateField(butterfliesData) {
