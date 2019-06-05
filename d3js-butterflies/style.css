@@ -3,6 +3,19 @@ body {
 }
 
 h1 {
+  text-align: center;
+  margin-bottom: 2px;
+  color: dimgray;
+}
+
+.desc {
+  text-align: center;
+  margin-bottom: 5px;
+  color: #3d3c3c;
+}
+
+#stats {
+  font-size: 0.9em;
   color: dimgray;
 }
 
@@ -31,11 +44,12 @@ h1 {
   display: block;
   margin: auto;
   margin-top: 10px;
+  margin-bottom: 2em;
   border-radius: 10px;
   box-shadow: 0px 2px 5px dimgray;
-  color: black;
-  font-size: 18px;
-  padding: 8px 10px 8px 10px;
+  color: #3d3c3c;
+  font-size: 14px;
+  padding: 4px 6px 4px 6px;
   border: solid white 2px;
 }
 
@@ -50,10 +64,12 @@ h1 {
 }
 
 .credits {
-  position: fixed;
-  left: 50%;
-  bottom: 0px;
-  transform: translate(-50%, -50%);
+  text-align: center;
+  /* position: fixed; */
+  /* left: 50%; */
+  /* bottom: 0px; */
+  /* transform: translate(-50%, -50%); */
+  padding-top: 3em;
   margin: 0 auto;
-  opacity: 0.6
+  opacity: 0.5;
 }

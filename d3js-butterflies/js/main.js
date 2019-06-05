@@ -63,7 +63,8 @@ function loadData() {
 
 /* Main */
 function reload() {
-    console.log("resetting...")
+    console.log("reloading...")
+    document.getElementById("stats").textContent="reloading..."
     load_occurring = true;
     clearField();
     loadData();
@@ -99,7 +100,8 @@ function loop() {
         butterflies = updateButterflyCoords(butterflies, flowers);
         updateField(butterflies);
     } else {
-        console.log("all butterflies have been captured!");
+        console.log("all butterflies have been caught");
+        document.getElementById("stats").textContent = "all butterflies have been caught";
         clearInterval(update_loop);
     }
 }
@@ -107,6 +109,7 @@ j = 0
 function updateFreeButterflies() {
     free_butterflies--;
     console.log("butterfly caught! remaining: " + free_butterflies);
+    document.getElementById("stats").textContent = free_butterflies + " butterflies remaining.";
 }
 
 update_loop = null;
@@ -120,6 +123,7 @@ function launch() {
         if (load_occurring) {
             j = j + 1
             console.log("j: " + j)
+            document.getElementById("stats").textContent = free_butterflies + " butterflies remaining.";
             update_loop = setInterval(loop, updatefrequency);
             load_occurring = false;
         }
